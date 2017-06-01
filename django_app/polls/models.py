@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from django.db import models
 
+
 class Question(models.Model):
     question_text = models.CharField('질문내용', max_length=200)
     pub_date = models.DateTimeField('발행일자')
@@ -23,4 +24,4 @@ class Choice(models.Model):
     choice_text = models.CharField('선택내용', max_length=200)
     votes = models.IntegerField('총 투표수', default=0)
 
-# migrations 하려면 모델링을 해야한다.
+    # migrations 하려면 모델링을 해야한다.
