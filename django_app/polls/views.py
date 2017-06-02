@@ -37,11 +37,18 @@ def detail(request, question_id):
 
 
 def results(request, question_id):
-    # question_id가 pk인 Question객체를 가져와
-    # context라는 이름을 가진 dict에 'question'이라는 키 값으로 위 변수를 전달
-    # 이후 'polls/detail.html'과 context를 렌더한 결과를 리턴
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
+    # detail.html파일을 약간 수정해서 results.html을 만들고
+    # 질문에 대한 모든 선택사항의 선택수(votes)를 출력
+    question = get_object_or_404(Question, pk=question_id)
+    context = {
+        'question': question,
+    }
+    # detail.html내부
+    # question을 출력
+    # 해당 question의 모든 choice들 (question.choice_set.all) 출력
+    # loop돌며 각 choice의 제목과 votes를 출력
+
+    return render(request, 'polls/results.html', context)
 
 
 def vote(request, question_id):
@@ -67,7 +74,8 @@ def vote(request, question_id):
         except (KeyError, Choice.DoesNotExist):
             # message 프레임워크를 사용
             # 지금 몰라도 됨
-            # request에 메시지를 저장하고 
+            # request에 메시지를 저장해놓고 해당 request에 대한
+            # response를 돌려줄 때 메시지를 담아 보낸다
             messages.add_message(
                 request,
                 messages.ERROR,
