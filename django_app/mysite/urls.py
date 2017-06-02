@@ -18,8 +18,9 @@ from django.contrib import admin
 
 from polls import urls as polls_urls
 
+app_name = 'polls'
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #url(r'^polls/', include('polls.urls')) 정적으로 표현 ( str으로 ), 장고urls에 내장되어 있는 include 함수 !!
-url(r'^polls/', include(polls_urls)) # 동적 표현
+    # url(r'^polls/', include('polls.urls')) 정적으로 표현 ( str으로 ), 장고urls에 내장되어 있는 include 함수 !!
+    url(r'^polls/', include(polls_urls))  # 동적 표현
 ]

@@ -4,6 +4,7 @@ from . import views  # 자기자신이 속한 페키지 표현
 
 # from polls import views
 
+app_name = 'polls'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^(?P<question_id>[0-9]+)/$', views.detail,
