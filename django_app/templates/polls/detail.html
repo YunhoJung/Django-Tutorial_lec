@@ -1,33 +1,25 @@
-<!doctype html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Question</title>
-</head>
-<body>
-<h1>{{ question.question_text }}</h1>
+{% extends 'polls/base.html' %}
+{% block title %}Polls Detail{% endblock %}
 
+{% block content %}
+    <h1>{{ question.question_text }}</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p><strong>{{ message }}</strong></p>
+        {% endfor %}
+    {% endif %}
 
-{% if messages %}
-    {% for message in messages %}
-        <p><strong>{{ message }}</strong></p>
-    {% endfor %}
-{% endif %}
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+        {% csrf_token %}
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice-{{ forloop.counter }}">
+                {{ choice.choice_text }}
+            </label><br/>
+        {% endfor %}
+        <button type="submit">Vote</button>
+    </form>
 
-<form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}
-    {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice-{{ forloop.counter }}">
-            {{ choice.choice_text }}
-        </label><br/>
-    {% endfor %}
-    <button type="submit">Vote</button>
-</form>
-</body>
-</html>
+{% endblock %}
 {# id값이랑 for값이랑 일치해야돰#}
 {#forloop counter for문을 돌면서 자신이 몇번째 값인지 세어준다. 여기서는 for문 돌면서 값이 1씩 증가#}
